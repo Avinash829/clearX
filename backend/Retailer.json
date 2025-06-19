@@ -1,0 +1,20 @@
+[
+  {
+    "businessName": "sweets",
+    "businessType": "Bakery",
+    "email": "as@af.as",
+    "phone": "9874565212",
+    "password": "Avinash@12",
+    "confirmPassword": "Avinash@12",
+    "storeAddress": "Visakhapatnam",
+    "storePhone": "98763210",
+    "openingTime": "",
+    "closingTime": "",
+    "productTypes": [
+      "Bakery Items",
+      "Dairy Products"
+    ],
+    "storePhotos": [],
+    "verificationDoc": null
+  }
+]
