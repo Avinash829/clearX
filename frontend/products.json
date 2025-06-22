@@ -1,0 +1,74 @@
+[
+  { 
+    "id": 1, 
+    "name": "Fresh Apples", 
+    "image": "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300&h=300&fit=crop", 
+    "price": 120, 
+    "originalPrice": 150, 
+    "discount": 20, 
+    "expiry": "2 days", 
+    "category": "Fresh Produce", 
+    "rating": 4.5,
+    "location": "Mumbai Central"
+  },
+  { 
+    "id": 2, 
+    "name": "Fresh Bread Loaves", 
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=300&fit=crop", 
+    "price": 25, 
+    "originalPrice": 35, 
+    "discount": 29, 
+    "expiry": "1 day", 
+    "category": "Bakery", 
+    "rating": 4.2,
+    "location": "Andheri West"
+  },
+  { 
+    "id": 3, 
+    "name": "Fresh Milk Packets", 
+    "image": "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300&h=300&fit=crop", 
+    "price": 45, 
+    "originalPrice": 55, 
+    "discount": 18, 
+    "expiry": "2 days", 
+    "category": "Dairy", 
+    "rating": 4.8,
+    "location": "Bandra East"
+  },
+  { 
+    "id": 4, 
+    "name": "Ripe Bananas", 
+    "image": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300&h=300&fit=crop", 
+    "price": 60, 
+    "originalPrice": 80, 
+    "discount": 25, 
+    "expiry": "3 days", 
+    "category": "Fresh Produce", 
+    "rating": 4.3,
+    "location": "Powai"
+  },
+  { 
+    "id": 5, 
+    "name": "Chocolate Cookies", 
+    "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=300&h=300&fit=crop", 
+    "price": 80, 
+    "originalPrice": 100, 
+    "discount": 20, 
+    "expiry": "5 days", 
+    "category": "Bakery", 
+    "rating": 4.6,
+    "location": "Thane West"
+  },
+  { 
+    "id": 6, 
+    "name": "Greek Yogurt", 
+    "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&h=300&fit=crop", 
+    "price": 35, 
+    "originalPrice": 45, 
+    "discount": 22, 
+    "expiry": "2 days", 
+    "category": "Dairy", 
+    "rating": 4.4,
+    "location": "Borivali West"
+  }
+]

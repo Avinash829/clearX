@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import Layout from '@/components/Layout';
-
+import axios from 'axios';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,22 +39,8 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      console.log('Setting login status to true for role:', userRole);
-      
-      // Set logged in status
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userRole', userRole);
-      
-      // Dispatch custom event to notify navbar and other components
-      window.dispatchEvent(new Event('loginStateChanged'));
-      
-      console.log('Login state changed event dispatched');
-      
-      // Role-based redirection to match App.tsx routes
+     const res=  await axios.post(`http://localhost:5000/auth/login/${userRole}`,{email:email,password:password})
+    if(res.status==200){
       switch (userRole) {
         case 'retailer':
           navigate('/dashboard/retailer');
@@ -65,8 +51,12 @@ const Login = () => {
         default:
           navigate('/dashboard/customer');
           break;
-      }
-    }, 1500);
+    }
+  }
+    
+  
+
+
   };
 
   const handleChangeRole = () => {

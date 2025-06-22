@@ -7,12 +7,13 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import Layout from '@/components/Layout';
-
+import axios from 'axios';
+import { toast } from 'sonner';
 const DeliveryAgentSignup = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: '',
+    fullName: '',
     lastName: '',
     email: '',
     phone: '',
@@ -37,9 +38,13 @@ const DeliveryAgentSignup = () => {
     return { strength: 'strong', color: 'bg-green-500' };
   };
 
-  const handleSubmit = () => {
-    console.log('Delivery agent signup completed:', formData);
-    navigate('/login');
+  const handleSubmit = async () => {
+    const res = await axios.post('http://localhost:5000/auth/signup/agent',formData)
+    if(res.status==201){navigate('/login');} 
+    else{
+      toast.error('error in signup')
+    }
+    
   };
 
   const nextStep = () => setCurrentStep(prev => prev + 1);
@@ -79,11 +84,11 @@ const DeliveryAgentSignup = () => {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName">First Name</Label>
+                      <Label htmlFor="fullName">First Name</Label>
                       <Input
-                        id="firstName"
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                        id="fullName"
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                         placeholder="First name"
                       />
                     </div>

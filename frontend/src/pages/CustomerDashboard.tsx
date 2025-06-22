@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,11 +7,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { MapPin, Heart, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
-
+import axios from 'axios'
 const CustomerDashboard = () => {
   const navigate = useNavigate();
   const [cartOpen, setCartOpen] = useState(false);
   const [wishlistOpen, setWishlistOpen] = useState(false);
+  const [products2,setproducts2] = useState([])
+  const [cartItems2,setcartItems] = useState([]) 
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
     discount: '',
@@ -19,6 +21,8 @@ const CustomerDashboard = () => {
     expiry: '',
     location: ''
   });
+  const [wishlist2,setWishlist] = useState([])
+
   
   const products = [
     { 
@@ -99,7 +103,7 @@ const CustomerDashboard = () => {
     { id: 1, name: 'Fresh Apples', price: 120, quantity: 2, image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=100&h=100&fit=crop' },
     { id: 3, name: 'Fresh Milk Packets', price: 45, quantity: 1, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=100&h=100&fit=crop' }
   ];
-
+2
   const wishlistItems = [
     { id: 2, name: 'Fresh Bread Loaves', price: 25, originalPrice: 35, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=100&h=100&fit=crop' },
     { id: 4, name: 'Ripe Bananas', price: 60, originalPrice: 80, image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=100&h=100&fit=crop' }
@@ -123,15 +127,44 @@ const CustomerDashboard = () => {
     navigate(`/buy-now/${productId}`);
   };
 
-  const handleAddToWishlist = (productId) => {
-    console.log('Added to wishlist:', productId);
-    // Add wishlist logic here
+  const handleCartOpen = async (userId)=>{
+         setCartOpen(true)
+       await axios.get('http://localhost:5000/api/getcart/1').then((res)=>{setcartItems(res.data.items)
+        console.log(res.data.items[0].product.id)
+       })
+  }
+
+  const handleAddToWishlist = async (product) => {
+    console.log('Added to wishlist:', product);
+      await axios.post('http://localhost:5000/api/wishlist',{userId:1,product})
   };
 
-  const handleAddToCart = (productId) => {
+  const handleAddToCart = async (productId) => {
+    await axios.post('http://localhost:5000/api/cart',{userId:1,items:[{productId:productId,quantity:1}]})
     console.log('Added to cart:', productId);
     // Add cart logic here
   };
+
+
+
+         useEffect(()=>{
+
+           async function getproducts(){
+            await axios.get('http://localhost:5000/api/getproducts').then((res)=>{
+                setproducts2(res.data)
+            })
+            await axios.get('http://localhost:5000/api/wishlist/1').then((res)=>{
+                  setWishlist(res.data.items)
+            })
+            await axios.get('http://localhost:5000/api/getcart/1').then((res)=>{setcartItems(res.data.items)
+        console.log(res.data.items[0].product.id)
+       })
+           }
+                 
+         getproducts();
+
+
+         },[])
 
   return (
     <Layout>
@@ -150,22 +183,22 @@ const CustomerDashboard = () => {
                 className="relative"
               >
                 <Heart className="h-4 w-4 mr-2" />
-                Wishlist ({wishlistItems.length})
-                {wishlistItems.length > 0 && (
+                Wishlist ({wishlist2.length})
+                {wishlist2.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                    {wishlistItems.length}
+                    {wishlist2.length}
                   </span>
                 )}
               </Button>
               <Button 
-                onClick={() => setCartOpen(true)}
+                onClick={handleCartOpen}
                 className="bg-eco-green hover:bg-eco-dark relative"
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
-                Cart ({cartItems.length})
-                {cartItems.length > 0 && (
+                Cart ({cartItems2.length})
+                {cartItems2.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                    {cartItems.length}
+                    {cartItems2.length}
                   </span>
                 )}
               </Button>
@@ -322,6 +355,7 @@ const CustomerDashboard = () => {
                     </select>
                   </div>
 
+
                   <Button variant="outline" className="w-full">
                     Clear Filters
                   </Button>
@@ -345,7 +379,7 @@ const CustomerDashboard = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {products.map(product => (
+                {products2.map(product => (
                   <Card key={product.id} className="hover-lift">
                     <CardContent className="p-4">
                       <div className="relative mb-4">
@@ -382,7 +416,7 @@ const CustomerDashboard = () => {
                             Add to Cart
                           </Button>
                           <Button 
-                            onClick={() => handleAddToWishlist(product.id)}
+                            onClick={() => handleAddToWishlist(product)}
                             variant="outline"
                             size="icon"
                           >
@@ -440,21 +474,21 @@ const CustomerDashboard = () => {
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold">Shopping Cart</h3>
                   <Button variant="outline" size="sm" onClick={() => setCartOpen(false)}>
-                    ✕
+                    ✕ 
                   </Button>
                 </div>
                 <div className="space-y-4 mb-6">
-                  {cartItems.map(item => (
-                    <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  {cartItems2.map(item => (
+                    <div key={item.product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <img 
-                          src={item.image} 
-                          alt={item.name}
+                          src={item.product.image} 
+                          alt={item.product.name}
                           className="w-12 h-12 object-cover rounded"
                         />
                         <div>
-                          <p className="font-medium">{item.name}</p>
-                          <p className="text-sm text-gray-600">₹{item.price} × {item.quantity}</p>
+                          <p className="font-medium">{item.product.name}</p>
+                          <p className="text-sm text-gray-600">₹{item.product.price} × {item.product.quantity}</p>
                         </div>
                       </div>
                       <Button variant="outline" size="sm">Remove</Button>
@@ -486,7 +520,7 @@ const CustomerDashboard = () => {
                   </Button>
                 </div>
                 <div className="space-y-4 mb-6">
-                  {wishlistItems.map(item => (
+                  {wishlist2.map(item => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <img 

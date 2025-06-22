@@ -5,11 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Layout from '@/components/Layout';
-
+import axios from 'axios';
 const CustomerSignup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
+    fullname: '',
     lastName: '',
     email: '',
     phone: '',
@@ -28,20 +28,15 @@ const CustomerSignup = () => {
 
     try {
       // Replace with your FastAPI endpoint later
-      const response = await fetch('http://localhost:8000/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('http://localhost:5000/auth/signup/customer',formData)
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert('Signup failed: ' + errorData.detail || 'Unknown error');
+      if (response.status!=201) {
+        
+        alert('Signup failed:Unknown error');
         return;
       }
 
-      const data = await response.json();
-      console.log('Signup success:', data);
+      
       navigate('/login');
     } catch (error) {
       console.error('Error during signup:', error);
@@ -64,12 +59,12 @@ const CustomerSignup = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="fullname">First Name</Label>
                     <Input
-                      id="firstName"
+                      id="fullname"
                       required
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      value={formData.fullname}
+                      onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                       placeholder="First name"
                     />
                   </div>

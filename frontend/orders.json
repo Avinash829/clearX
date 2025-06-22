@@ -1,0 +1,28 @@
+[
+  {
+    "step": "Order Placed",
+    "completed": true,
+    "time": "10:30 AM"
+  },
+  {
+    "step": "Confirmed",
+    "completed": true,
+    "time": "10:45 AM"
+  },
+  {
+    "step": "Preparing",
+    "completed": true,
+    "time": "11:00 AM"
+  },
+  {
+    "step": "Out for Delivery",
+    "completed": false,
+    "time": ""
+  },
+  {
+    "step": "Delivered",
+    "completed": false,
+    "time": ""
+  }
+]
+

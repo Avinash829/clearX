@@ -6,11 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import Layout from '@/components/Layout';
+import axios from 'axios';
 
 const RetailerSignup = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  
   const [formData, setFormData] = useState({
+    fullName:'',
     businessName: '',
     businessType: '',
     email: '',
@@ -51,15 +54,9 @@ const RetailerSignup = () => {
     
   const handleSubmit = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/retailers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await axios.post('http://localhost:5000/auth/signup/retailer',formData)
 
-      if (res.ok) {
+      if (res.status==201) {
         alert('Registration successful!');
         navigate('/login');
       } else {
@@ -116,7 +113,16 @@ const RetailerSignup = () => {
                       placeholder="Enter your business name"
                     />
                   </div>
-
+                    <div>
+                      <Label htmlFor="password">fullName</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      placeholder="Create a name"
+                    />
+                    </div>
                   <div>
                     <Label htmlFor="businessType">Business Type</Label>
                     <select
